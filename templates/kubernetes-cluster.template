@@ -481,11 +481,12 @@ Resources:
     Properties:
       Code:
         ZipFile: |
-          import random
+          import os
+          import base64
           import string
           import cfnresponse
           def id_generator(size, chars=string.ascii_lowercase + string.digits):
-            return ''.join(random.choice(chars) for _ in range(size))
+            return base64.b64encode(os.urandom(size))
           def handler(event, context):
             if event['RequestType'] == 'Delete':
               cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
